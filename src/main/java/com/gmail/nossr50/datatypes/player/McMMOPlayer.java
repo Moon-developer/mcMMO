@@ -92,6 +92,8 @@ public class McMMOPlayer {
     private boolean isUsingUnarmed;
     private final FixedMetadataValue playerMetadata;
 
+    private String nameTag;
+
     public McMMOPlayer(Player player) {
         String playerName = player.getName();
 
@@ -949,5 +951,13 @@ public class McMMOPlayer {
 
     public FixedMetadataValue getPlayerMetadata() {
         return playerMetadata;
+    }
+
+    public String getNameTag() {
+        return nameTag;
+    }
+
+    public void setNameTag(String nameTag) {
+        this.nameTag = nameTag;
     }
 }

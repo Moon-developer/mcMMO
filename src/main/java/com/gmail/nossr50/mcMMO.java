@@ -29,6 +29,7 @@ import com.gmail.nossr50.listeners.InventoryListener;
 import com.gmail.nossr50.listeners.PlayerListener;
 import com.gmail.nossr50.listeners.ScoreboardsListener;
 import com.gmail.nossr50.listeners.SelfListener;
+import com.gmail.nossr50.listeners.TagListener;
 import com.gmail.nossr50.listeners.WorldListener;
 import com.gmail.nossr50.locale.LocaleLoader;
 import com.gmail.nossr50.metrics.MetricsManager;
@@ -88,6 +89,7 @@ public class mcMMO extends JavaPlugin {
     private static boolean healthBarPluginEnabled;
     private static boolean noCheatPlusPluginEnabled;
     private static boolean compatNoCheatPlusPluginEnabled;
+    private static boolean tagapiPluginEnabled;
     private static boolean mcpcEnabled;
 
     // Config Validation Check
@@ -128,6 +130,7 @@ public class mcMMO extends JavaPlugin {
             healthBarPluginEnabled = getServer().getPluginManager().getPlugin("HealthBar") != null;
             noCheatPlusPluginEnabled = getServer().getPluginManager().getPlugin("NoCheatPlus") != null;
             compatNoCheatPlusPluginEnabled = getServer().getPluginManager().getPlugin("CompatNoCheatPlus") != null;
+            tagapiPluginEnabled = getServer().getPluginManager().getPlugin("TagAPI") != null && checkTagVersion();
 
             setupFilePaths();
 
@@ -406,6 +409,10 @@ public class mcMMO extends JavaPlugin {
         pluginManager.registerEvents(new SelfListener(), this);
         pluginManager.registerEvents(new ScoreboardsListener(), this);
         pluginManager.registerEvents(new WorldListener(this), this);
+
+        if (tagapiPluginEnabled) {
+            pluginManager.registerEvents(new TagListener(this), this);
+        }
     }
 
     private void registerCustomRecipes() {
@@ -469,5 +476,18 @@ public class mcMMO extends JavaPlugin {
             getLogger().info("MCPC+ implementation found, but the custom entity config for mcMMO is disabled!");
             getLogger().info("To enable, set Mods.Entity_Mods_Enabled to TRUE in config.yml.");
         }
+    }
+
+    private boolean checkTagVersion() {
+        try {
+            Class.forName("org.kitteh.tag.AsyncPlayerReceiveNameTagEvent");
+        }
+        catch (final ClassNotFoundException e) {
+            getLogger().info("This TagAPI version does not have AsyncPlayerReceiveNameTagEvent");
+            getLogger().info("Please update TagAPI to ensure full compatibility with mcMMO");
+            return false;
+        }
+
+        return true;
     }
 }
