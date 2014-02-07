@@ -56,7 +56,7 @@ public class InventoryListener implements Listener {
 
         HumanEntity player = event.getPlayer();
 
-        if (Misc.isNPCEntity(player)) {
+        if (!player.hasMetadata(mcMMO.playerDataKey)) {
             return;
         }
 
@@ -73,7 +73,7 @@ public class InventoryListener implements Listener {
 
         HumanEntity player = event.getPlayer();
 
-        if (Misc.isNPCEntity(player)) {
+        if (!player.hasMetadata(mcMMO.playerDataKey)) {
             return;
         }
 
@@ -92,7 +92,7 @@ public class InventoryListener implements Listener {
 
         Player player = getPlayerFromFurnace(furnaceBlock);
 
-        if (Misc.isNPCEntity(player) || !Permissions.secondaryAbilityEnabled(player, SecondaryAbility.FUEL_EFFICIENCY)) {
+        if (!player.hasMetadata(mcMMO.playerDataKey) || !Permissions.secondaryAbilityEnabled(player, SecondaryAbility.FUEL_EFFICIENCY)) {
             return;
         }
 
@@ -110,7 +110,7 @@ public class InventoryListener implements Listener {
 
         Player player = getPlayerFromFurnace(furnaceBlock);
 
-        if (Misc.isNPCEntity(player) || !SkillType.SMELTING.getPermissions(player)) {
+        if (!player.hasMetadata(mcMMO.playerDataKey) || !SkillType.SMELTING.getPermissions(player)) {
             return;
         }
 
@@ -129,7 +129,7 @@ public class InventoryListener implements Listener {
 
         Player player = getPlayerFromFurnace(furnaceBlock);
 
-        if (Misc.isNPCEntity(player) || !Permissions.vanillaXpBoost(player, SkillType.SMELTING)) {
+        if (!player.hasMetadata(mcMMO.playerDataKey) || !Permissions.vanillaXpBoost(player, SkillType.SMELTING)) {
             return;
         }
 
@@ -142,7 +142,7 @@ public class InventoryListener implements Listener {
             return;
         }
 
-        if (!(event.getWhoClicked() instanceof Player) || Misc.isNPCEntity(event.getWhoClicked()) || !Permissions.concoctions(event.getWhoClicked())) {
+        if (!event.getWhoClicked().hasMetadata(mcMMO.playerDataKey) || !Permissions.concoctions(event.getWhoClicked())) {
             return;
         }
 
@@ -155,7 +155,7 @@ public class InventoryListener implements Listener {
             return;
         }
 
-        if (!(event.getWhoClicked() instanceof Player) || Misc.isNPCEntity(event.getWhoClicked()) || !Permissions.concoctions(event.getWhoClicked())) {
+        if (!event.getWhoClicked().hasMetadata(mcMMO.playerDataKey) || !Permissions.concoctions(event.getWhoClicked())) {
             return;
         }
 
@@ -187,7 +187,7 @@ public class InventoryListener implements Listener {
     public void onCraftItem(CraftItemEvent event) {
         final HumanEntity whoClicked = event.getWhoClicked();
 
-        if (Misc.isNPCEntity(whoClicked) || !(whoClicked instanceof Player)) {
+        if (!whoClicked.hasMetadata(mcMMO.playerDataKey)) {
             return;
         }
 
