@@ -1,18 +1,19 @@
 package com.gmail.nossr50.util.player;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.HashSet;
 import java.util.Set;
 
 import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.metadata.FixedMetadataValue;
 
 import com.gmail.nossr50.mcMMO;
 import com.gmail.nossr50.datatypes.player.McMMOPlayer;
 
 public final class UserManager {
-    private final static Map<String, McMMOPlayer> players = new HashMap<String, McMMOPlayer>();
 
     private UserManager() {}
 
@@ -23,16 +24,8 @@ public final class UserManager {
      * @return the player's {@link McMMOPlayer} object
      */
     public static McMMOPlayer addUser(Player player) {
-        String playerName = player.getName();
-        McMMOPlayer mcMMOPlayer = players.get(playerName);
-
-        if (mcMMOPlayer != null) {
-            mcMMOPlayer.setPlayer(player); // The player object is different on each reconnection and must be updated
-        }
-        else {
-            mcMMOPlayer = new McMMOPlayer(player);
-            players.put(playerName, mcMMOPlayer);
-        }
+        McMMOPlayer mcMMOPlayer = new McMMOPlayer(player);
+        player.setMetadata(mcMMO.playerDataKey, new FixedMetadataValue(mcMMO.p, mcMMOPlayer));
 
         return mcMMOPlayer;
     }
@@ -40,35 +33,51 @@ public final class UserManager {
     /**
      * Remove a user.
      *
-     * @param playerName The name of the player to remove
+     * @param player The Player object
      */
-    public static void remove(String playerName) {
-        players.remove(playerName);
+    public static void remove(Player player) {
+        player.removeMetadata(mcMMO.playerDataKey, mcMMO.p);
     }
 
     /**
      * Clear all users.
      */
     public static void clearAll() {
-        players.clear();
+        for (Player player : mcMMO.p.getServer().getOnlinePlayers()) {
+            remove(player);
+        }
     }
 
     /**
      * Save all users.
      */
     public static void saveAll() {
-        mcMMO.p.debug("Saving mcMMOPlayers... (" + players.size() + ")");
-        for (McMMOPlayer mcMMOPlayer : players.values()) {
-            mcMMOPlayer.getProfile().save();
+        Player[] onlinePlayers = mcMMO.p.getServer().getOnlinePlayers();
+        mcMMO.p.debug("Saving mcMMOPlayers... (" + onlinePlayers.length + ")");
+
+        for (Player player : onlinePlayers) {
+            getPlayer(player).getProfile().save();
         }
     }
 
     public static Set<String> getPlayerNames() {
-        return players.keySet();
+        Set<String> playerNames = new HashSet<String>();
+
+        for (Player player : mcMMO.p.getServer().getOnlinePlayers()) {
+            playerNames.add(player.getName());
+        }
+
+        return playerNames;
     }
 
     public static Collection<McMMOPlayer> getPlayers() {
-        return players.values();
+        Collection<McMMOPlayer> playerCollection  = new ArrayList<McMMOPlayer>();
+
+        for (Player player : mcMMO.p.getServer().getOnlinePlayers()) {
+            playerCollection.add(getPlayer(player));
+        }
+
+        return playerCollection;
     }
 
     /**

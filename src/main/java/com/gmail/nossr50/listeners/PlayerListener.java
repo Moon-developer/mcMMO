@@ -1,6 +1,5 @@
 package com.gmail.nossr50.listeners;
 
-import com.gmail.nossr50.util.scoreboards.ScoreboardManager;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -59,6 +58,7 @@ import com.gmail.nossr50.util.MobHealthbarUtils;
 import com.gmail.nossr50.util.Motd;
 import com.gmail.nossr50.util.Permissions;
 import com.gmail.nossr50.util.player.UserManager;
+import com.gmail.nossr50.util.scoreboards.ScoreboardManager;
 import com.gmail.nossr50.util.skills.SkillUtils;
 
 public class PlayerListener implements Listener {
@@ -353,7 +353,7 @@ public class PlayerListener implements Listener {
         mcMMOPlayer.resetAbilityMode();
         BleedTimerTask.bleedOut(player);
         mcMMOPlayer.getProfile().save();
-        UserManager.remove(player.getName());
+        UserManager.remove(player);
         ScoreboardManager.teardownPlayer(player);
     }
 
@@ -374,9 +374,8 @@ public class PlayerListener implements Listener {
             return;
         }
 
-        McMMOPlayer mcPlayer = UserManager.addUser(player);
-        player.setMetadata(mcMMO.playerDataKey, new FixedMetadataValue(mcMMO.p, mcPlayer));
-        mcPlayer.actualizeRespawnATS();
+        McMMOPlayer mcMMOPlayer = UserManager.addUser(player);
+        mcMMOPlayer.actualizeRespawnATS();
         ScoreboardManager.setupPlayer(player);
 
         if (Config.getInstance().getMOTDEnabled() && Permissions.motd(player)) {
