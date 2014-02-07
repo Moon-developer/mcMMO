@@ -122,4 +122,8 @@ public final class UserManager {
 
         return getPlayer(player);
     }
+
+    public static boolean hasPlayerDataKey(HumanEntity humanEntity) {
+        return humanEntity.hasMetadata(mcMMO.playerDataKey);
+    }
 }

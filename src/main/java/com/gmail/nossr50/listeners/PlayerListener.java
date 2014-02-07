@@ -26,7 +26,6 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.metadata.FixedMetadataValue;
 
 import com.gmail.nossr50.mcMMO;
 import com.gmail.nossr50.chat.ChatManager;
@@ -82,7 +81,7 @@ public class PlayerListener implements Listener {
     public void onPlayerTeleport(PlayerTeleportEvent event) {
         Player player = event.getPlayer();
 
-        if (!player.hasMetadata(mcMMO.playerDataKey) || !Config.getInstance().getPreventXPAfterTeleport() || event.getFrom().equals(event.getTo())) {
+        if (!UserManager.hasPlayerDataKey(player) || !Config.getInstance().getPreventXPAfterTeleport() || event.getFrom().equals(event.getTo())) {
             return;
         }
 
@@ -166,7 +165,7 @@ public class PlayerListener implements Listener {
     public void onPlayerWorldChange(PlayerChangedWorldEvent event) {
         Player player = event.getPlayer();
 
-        if (!player.hasMetadata(mcMMO.playerDataKey)) {
+        if (!UserManager.hasPlayerDataKey(player)) {
             return;
         }
 
@@ -209,7 +208,7 @@ public class PlayerListener implements Listener {
     public void onPlayerFishHighest(PlayerFishEvent event) {
         Player player = event.getPlayer();
 
-        if (!player.hasMetadata(mcMMO.playerDataKey) || !SkillType.FISHING.getPermissions(player)) {
+        if (!UserManager.hasPlayerDataKey(player) || !SkillType.FISHING.getPermissions(player)) {
             return;
         }
 
@@ -254,7 +253,7 @@ public class PlayerListener implements Listener {
     public void onPlayerFishMonitor(PlayerFishEvent event) {
         Player player = event.getPlayer();
 
-        if (!player.hasMetadata(mcMMO.playerDataKey) || !SkillType.FISHING.getPermissions(player)) {
+        if (!UserManager.hasPlayerDataKey(player) || !SkillType.FISHING.getPermissions(player)) {
             return;
         }
 
@@ -295,7 +294,7 @@ public class PlayerListener implements Listener {
     public void onPlayerPickupItem(PlayerPickupItemEvent event) {
         Player player = event.getPlayer();
 
-        if (!player.hasMetadata(mcMMO.playerDataKey)) {
+        if (!UserManager.hasPlayerDataKey(player)) {
             return;
         }
 
@@ -345,7 +344,7 @@ public class PlayerListener implements Listener {
     public void onPlayerQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
 
-        if (!player.hasMetadata(mcMMO.playerDataKey)) {
+        if (!UserManager.hasPlayerDataKey(player)) {
             return;
         }
 
@@ -407,7 +406,7 @@ public class PlayerListener implements Listener {
     public void onPlayerRespawn(PlayerRespawnEvent event) {
         Player player = event.getPlayer();
 
-        if (!player.hasMetadata(mcMMO.playerDataKey)) {
+        if (!UserManager.hasPlayerDataKey(player)) {
             return;
         }
 
@@ -423,7 +422,7 @@ public class PlayerListener implements Listener {
     public void onPlayerInteractLowest(PlayerInteractEvent event) {
         Player player = event.getPlayer();
 
-        if (!player.hasMetadata(mcMMO.playerDataKey) || player.getGameMode() == GameMode.CREATIVE) {
+        if (!UserManager.hasPlayerDataKey(player) || player.getGameMode() == GameMode.CREATIVE) {
             return;
         }
 
