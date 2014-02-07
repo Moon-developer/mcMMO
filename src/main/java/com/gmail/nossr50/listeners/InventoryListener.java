@@ -34,7 +34,6 @@ import com.gmail.nossr50.datatypes.skills.SkillType;
 import com.gmail.nossr50.runnables.PlayerUpdateInventoryTask;
 import com.gmail.nossr50.skills.alchemy.AlchemyPotionBrewer;
 import com.gmail.nossr50.util.ItemUtils;
-import com.gmail.nossr50.util.Misc;
 import com.gmail.nossr50.util.Permissions;
 import com.gmail.nossr50.util.player.UserManager;
 import com.gmail.nossr50.util.skills.SkillUtils;
@@ -56,7 +55,7 @@ public class InventoryListener implements Listener {
 
         HumanEntity player = event.getPlayer();
 
-        if (!player.hasMetadata(mcMMO.playerDataKey)) {
+        if (!UserManager.hasPlayerDataKey(player)) {
             return;
         }
 
@@ -73,7 +72,7 @@ public class InventoryListener implements Listener {
 
         HumanEntity player = event.getPlayer();
 
-        if (!player.hasMetadata(mcMMO.playerDataKey)) {
+        if (!UserManager.hasPlayerDataKey(player)) {
             return;
         }
 
@@ -92,7 +91,7 @@ public class InventoryListener implements Listener {
 
         Player player = getPlayerFromFurnace(furnaceBlock);
 
-        if (!player.hasMetadata(mcMMO.playerDataKey) || !Permissions.secondaryAbilityEnabled(player, SecondaryAbility.FUEL_EFFICIENCY)) {
+        if (!UserManager.hasPlayerDataKey(player) || !Permissions.secondaryAbilityEnabled(player, SecondaryAbility.FUEL_EFFICIENCY)) {
             return;
         }
 
@@ -110,7 +109,7 @@ public class InventoryListener implements Listener {
 
         Player player = getPlayerFromFurnace(furnaceBlock);
 
-        if (!player.hasMetadata(mcMMO.playerDataKey) || !SkillType.SMELTING.getPermissions(player)) {
+        if (!UserManager.hasPlayerDataKey(player) || !SkillType.SMELTING.getPermissions(player)) {
             return;
         }
 
@@ -129,7 +128,7 @@ public class InventoryListener implements Listener {
 
         Player player = getPlayerFromFurnace(furnaceBlock);
 
-        if (!player.hasMetadata(mcMMO.playerDataKey) || !Permissions.vanillaXpBoost(player, SkillType.SMELTING)) {
+        if (!UserManager.hasPlayerDataKey(player) || !Permissions.vanillaXpBoost(player, SkillType.SMELTING)) {
             return;
         }
 
