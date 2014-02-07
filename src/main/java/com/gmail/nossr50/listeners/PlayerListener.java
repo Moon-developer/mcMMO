@@ -26,6 +26,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.metadata.FixedMetadataValue;
 
 import com.gmail.nossr50.mcMMO;
 import com.gmail.nossr50.chat.ChatManager;
@@ -81,7 +82,7 @@ public class PlayerListener implements Listener {
     public void onPlayerTeleport(PlayerTeleportEvent event) {
         Player player = event.getPlayer();
 
-        if (Misc.isNPCEntity(player) || !Config.getInstance().getPreventXPAfterTeleport() || event.getFrom().equals(event.getTo())) {
+        if (!player.hasMetadata(mcMMO.playerDataKey) || !Config.getInstance().getPreventXPAfterTeleport() || event.getFrom().equals(event.getTo())) {
             return;
         }
 
@@ -130,7 +131,7 @@ public class PlayerListener implements Listener {
 
         Player killedPlayer = event.getEntity();
 
-        if (Misc.isNPCEntity(killedPlayer) || Permissions.hardcoreBypass(killedPlayer)) {
+        if (!killedPlayer.hasMetadata(mcMMO.playerDataKey) || Permissions.hardcoreBypass(killedPlayer)) {
             return;
         }
 
@@ -165,7 +166,7 @@ public class PlayerListener implements Listener {
     public void onPlayerWorldChange(PlayerChangedWorldEvent event) {
         Player player = event.getPlayer();
 
-        if (Misc.isNPCEntity(player)) {
+        if (!player.hasMetadata(mcMMO.playerDataKey)) {
             return;
         }
 
@@ -208,7 +209,7 @@ public class PlayerListener implements Listener {
     public void onPlayerFishHighest(PlayerFishEvent event) {
         Player player = event.getPlayer();
 
-        if (Misc.isNPCEntity(player) || !SkillType.FISHING.getPermissions(player)) {
+        if (!player.hasMetadata(mcMMO.playerDataKey) || !SkillType.FISHING.getPermissions(player)) {
             return;
         }
 
@@ -253,7 +254,7 @@ public class PlayerListener implements Listener {
     public void onPlayerFishMonitor(PlayerFishEvent event) {
         Player player = event.getPlayer();
 
-        if (Misc.isNPCEntity(player) || !SkillType.FISHING.getPermissions(player)) {
+        if (!player.hasMetadata(mcMMO.playerDataKey) || !SkillType.FISHING.getPermissions(player)) {
             return;
         }
 
@@ -294,7 +295,7 @@ public class PlayerListener implements Listener {
     public void onPlayerPickupItem(PlayerPickupItemEvent event) {
         Player player = event.getPlayer();
 
-        if (Misc.isNPCEntity(player)) {
+        if (!player.hasMetadata(mcMMO.playerDataKey)) {
             return;
         }
 
@@ -344,7 +345,7 @@ public class PlayerListener implements Listener {
     public void onPlayerQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
 
-        if (Misc.isNPCEntity(player)) {
+        if (!player.hasMetadata(mcMMO.playerDataKey)) {
             return;
         }
 
@@ -374,7 +375,9 @@ public class PlayerListener implements Listener {
             return;
         }
 
-        UserManager.addUser(player).actualizeRespawnATS();
+        McMMOPlayer mcPlayer = UserManager.addUser(player);
+        player.setMetadata(mcMMO.playerDataKey, new FixedMetadataValue(mcMMO.p, mcPlayer));
+        mcPlayer.actualizeRespawnATS();
         ScoreboardManager.setupPlayer(player);
 
         if (Config.getInstance().getMOTDEnabled() && Permissions.motd(player)) {
@@ -404,7 +407,7 @@ public class PlayerListener implements Listener {
     public void onPlayerRespawn(PlayerRespawnEvent event) {
         Player player = event.getPlayer();
 
-        if (Misc.isNPCEntity(player)) {
+        if (!player.hasMetadata(mcMMO.playerDataKey)) {
             return;
         }
 
@@ -420,7 +423,7 @@ public class PlayerListener implements Listener {
     public void onPlayerInteractLowest(PlayerInteractEvent event) {
         Player player = event.getPlayer();
 
-        if (Misc.isNPCEntity(player) || player.getGameMode() == GameMode.CREATIVE) {
+        if (!player.hasMetadata(mcMMO.playerDataKey) || player.getGameMode() == GameMode.CREATIVE) {
             return;
         }
 

@@ -88,10 +88,16 @@ public final class UserManager {
      * @return the player's McMMOPlayer object
      */
     public static McMMOPlayer getPlayer(OfflinePlayer player) {
+        if (player instanceof Player) {
+            return getPlayer((Player) player);
+        }
         return retrieveMcMMOPlayer(player.getName(), false);
     }
 
     public static McMMOPlayer getPlayer(OfflinePlayer player, boolean offlineValid) {
+        if (player instanceof Player) {
+            return getPlayer((Player) player);
+        }
         return retrieveMcMMOPlayer(player.getName(), offlineValid);
     }
 
@@ -99,24 +105,21 @@ public final class UserManager {
         return retrieveMcMMOPlayer(playerName, offlineValid);
     }
 
+    public static McMMOPlayer getPlayer(Player player) {
+        return (McMMOPlayer) player.getMetadata(mcMMO.playerDataKey).get(0).value();
+    }
+
     private static McMMOPlayer retrieveMcMMOPlayer(String playerName, boolean offlineValid) {
-        McMMOPlayer mcMMOPlayer = players.get(playerName);
+        Player player = mcMMO.p.getServer().getPlayerExact(playerName);
 
-        if (mcMMOPlayer == null) {
-            Player player = mcMMO.p.getServer().getPlayerExact(playerName);
-
-            if (player == null) {
-                if (!offlineValid) {
-                    mcMMO.p.getLogger().warning("A valid mcMMOPlayer object could not be found for " + playerName + ".");
-                }
-
-                return null;
+        if (player == null) {
+            if (!offlineValid) {
+                mcMMO.p.getLogger().warning("A valid mcMMOPlayer object could not be found for " + playerName + ".");
             }
 
-            mcMMOPlayer = new McMMOPlayer(player);
-            players.put(playerName, mcMMOPlayer);
+            return null;
         }
 
-        return mcMMOPlayer;
+        return getPlayer(player);
     }
 }
