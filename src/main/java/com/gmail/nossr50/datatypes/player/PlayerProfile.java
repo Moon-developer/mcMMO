@@ -24,6 +24,8 @@ public class PlayerProfile {
     /* HUDs */
     private MobHealthbarType mobHealthbarType;
 
+    private int scoreboardTipsShown;
+
     /* Skill Data */
     private final Map<SkillType, Integer>   skills     = new HashMap<SkillType, Integer>();   // Skill & Level
     private final Map<SkillType, Float>     skillsXp   = new HashMap<SkillType, Float>();     // Skill & XP
@@ -49,9 +51,10 @@ public class PlayerProfile {
         this.loaded = isLoaded;
     }
 
-    public PlayerProfile(String playerName, Map<SkillType, Integer> levelData, Map<SkillType, Float> xpData, Map<AbilityType, Integer> cooldownData, MobHealthbarType mobHealthbarType) {
+    public PlayerProfile(String playerName, Map<SkillType, Integer> levelData, Map<SkillType, Float> xpData, Map<AbilityType, Integer> cooldownData, MobHealthbarType mobHealthbarType, int scoreboardTipsShown) {
         this.playerName = playerName;
         this.mobHealthbarType = mobHealthbarType;
+        this.scoreboardTipsShown = scoreboardTipsShown;
 
         skills.putAll(levelData);
         skillsXp.putAll(xpData);
@@ -65,7 +68,7 @@ public class PlayerProfile {
             return;
         }
 
-        changed = !mcMMO.getDatabaseManager().saveUser(new PlayerProfile(playerName, ImmutableMap.copyOf(skills), ImmutableMap.copyOf(skillsXp), ImmutableMap.copyOf(abilityDATS), mobHealthbarType));
+        changed = !mcMMO.getDatabaseManager().saveUser(new PlayerProfile(playerName, ImmutableMap.copyOf(skills), ImmutableMap.copyOf(skillsXp), ImmutableMap.copyOf(abilityDATS), mobHealthbarType, scoreboardTipsShown));
 
         if (changed) {
             mcMMO.p.getLogger().warning("PlayerProfile for " + playerName + " failed to save");
@@ -90,6 +93,18 @@ public class PlayerProfile {
 
     public void setMobHealthbarType(MobHealthbarType mobHealthbarType) {
         this.mobHealthbarType = mobHealthbarType;
+    }
+
+    public int getScoreboardTipsShown() {
+        return scoreboardTipsShown;
+    }
+
+    public void setScoreboardTipsShown(int scoreboardTipsShown) {
+        this.scoreboardTipsShown = scoreboardTipsShown;
+    }
+
+    public void increaseTipsShown() {
+        setScoreboardTipsShown(getScoreboardTipsShown() + 1);
     }
 
     /*

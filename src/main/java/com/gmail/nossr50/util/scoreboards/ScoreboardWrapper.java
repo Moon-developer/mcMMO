@@ -196,6 +196,11 @@ public class ScoreboardWrapper {
 
         // TODO is there any way to do the time that looks acceptable?
         // player.sendMessage(LocaleLoader.getString("Commands.Scoreboard.Timer", StringUtils.capitalize(sidebarType.toString().toLowerCase()), ticks / 20F));
+        PlayerProfile profile = UserManager.getPlayer(player).getProfile();
+        if (profile.getScoreboardTipsShown() >= 5) {
+            return;
+        }
+
         if (!tippedKeep) {
             tippedKeep = true;
             player.sendMessage(LocaleLoader.getString("Commands.Scoreboard.Tip.Keep"));
@@ -203,6 +208,7 @@ public class ScoreboardWrapper {
         else if (!tippedClear) {
             tippedClear = true;
             player.sendMessage(LocaleLoader.getString("Commands.Scoreboard.Tip.Clear"));
+            profile.increaseTipsShown();
         }
     }
 

@@ -267,6 +267,7 @@ public final class FlatfileDatabaseManager implements DatabaseManager {
                         writer.append(mobHealthbarType == null ? Config.getInstance().getMobHealthbarDefault().toString() : mobHealthbarType.toString()).append(":");
                         writer.append(profile.getSkillLevel(SkillType.ALCHEMY)).append(":");
                         writer.append(profile.getSkillXpLevel(SkillType.ALCHEMY)).append(":");
+                        writer.append(profile.getScoreboardTipsShown()).append(":");
                         writer.append("\r\n");
                     }
                 }
@@ -358,6 +359,7 @@ public final class FlatfileDatabaseManager implements DatabaseManager {
                 out.append(Config.getInstance().getMobHealthbarDefault().toString()).append(":"); // Mob Healthbar HUD
                 out.append("0:"); // Alchemy
                 out.append("0:"); // AlchemyXp
+                out.append("0:"); // Scoreboard tips shown
                 
                 // Add more in the same format as the line above
 
@@ -691,6 +693,14 @@ public final class FlatfileDatabaseManager implements DatabaseManager {
                                 oldVersion = "1.4.08";
                             }
                         }
+                        if (character.length <= 41) {
+                            // Addition of scoreboard tips auto disable
+                            // Version 1.4.08
+                            newLine.append("0").append(":");
+                            if (oldVersion == null) {
+                                oldVersion = "1.4.08";
+                            }
+                        }
 
                         if (oldVersion != null) {
                             mcMMO.p.debug("Updating database line for player " + character[0] + " from before version " + oldVersion);
@@ -772,6 +782,7 @@ public final class FlatfileDatabaseManager implements DatabaseManager {
         Map<SkillType, Float>     skillsXp   = new HashMap<SkillType, Float>();     // Skill & XP
         Map<AbilityType, Integer> skillsDATS = new HashMap<AbilityType, Integer>(); // Ability & Cooldown
         MobHealthbarType mobHealthbarType;
+        int scoreboardTipsShown;
 
         // TODO on updates, put new values in a try{} ?
 
@@ -809,7 +820,14 @@ public final class FlatfileDatabaseManager implements DatabaseManager {
             mobHealthbarType = Config.getInstance().getMobHealthbarDefault();
         }
 
-        return new PlayerProfile(character[0], skills, skillsXp, skillsDATS, mobHealthbarType);
+        try {
+            scoreboardTipsShown = Integer.valueOf(character[41]);
+        }
+        catch (Exception e) {
+            scoreboardTipsShown = 0;
+        }
+
+        return new PlayerProfile(character[0], skills, skillsXp, skillsDATS, mobHealthbarType, scoreboardTipsShown);
     }
 
     private Map<SkillType, Integer> getSkillMapFromLine(String[] character) {
