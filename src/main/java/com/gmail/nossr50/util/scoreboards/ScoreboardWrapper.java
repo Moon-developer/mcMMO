@@ -197,7 +197,7 @@ public class ScoreboardWrapper {
         // TODO is there any way to do the time that looks acceptable?
         // player.sendMessage(LocaleLoader.getString("Commands.Scoreboard.Timer", StringUtils.capitalize(sidebarType.toString().toLowerCase()), ticks / 20F));
         PlayerProfile profile = UserManager.getPlayer(player).getProfile();
-        if (profile.getScoreboardTipsShown() >= 5) {
+        if (profile.getScoreboardTipsShown() >= Config.getInstance().getTipsAmount()) {
             return;
         }
 

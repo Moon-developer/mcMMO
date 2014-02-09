@@ -273,6 +273,7 @@ public class Config extends AutoUpdateConfigLoader {
     public boolean getPowerLevelTagsEnabled() { return config.getBoolean("Scoreboard.Power_Level_Tags", false); }
 
     public boolean getAllowKeepBoard() { return config.getBoolean("Scoreboard.Allow_Keep", true); }
+    public int getTipsAmount() { return config.getInt("Scoreboard.Tips_Amount", 5); }
     public boolean getScoreboardRainbows() { return config.getBoolean("Scoreboard.Rainbows", false); }
 
     /* Database Purging */
