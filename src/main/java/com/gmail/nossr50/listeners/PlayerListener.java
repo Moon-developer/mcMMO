@@ -512,7 +512,7 @@ public class PlayerListener implements Listener {
     public void onPlayerInteractMonitor(PlayerInteractEvent event) {
         Player player = event.getPlayer();
 
-        if (Misc.isNPCEntity(player) || player.getGameMode() == GameMode.CREATIVE) {
+        if (!UserManager.hasPlayerDataKey(player) || player.getGameMode() == GameMode.CREATIVE) {
             return;
         }
 
