@@ -133,6 +133,10 @@ public final class UserManager {
     }
 
     public static boolean hasPlayerDataKey(HumanEntity humanEntity) {
+        if (humanEntity == null) {
+            return false;
+        }
+
         return humanEntity.hasMetadata(mcMMO.playerDataKey);
     }
 }
