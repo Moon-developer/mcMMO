@@ -843,6 +843,11 @@ public final class SQLDatabaseManager implements DatabaseManager {
                     write("ALTER TABLE `"+tablePrefix + "skills` ADD `alchemy` int(10) NOT NULL DEFAULT '0' ;");
                     write("ALTER TABLE `"+tablePrefix + "experience` ADD `alchemy` int(10) NOT NULL DEFAULT '0' ;");
                     break;
+
+                case SCOREBOARD_TIPS:
+                    mcMMO.p.getLogger().info("Updating mcMMO MySQL tables for scoreboard tips...");
+                    write("ALTER TABLE `" + tablePrefix + "huds` ADD `scoreboardtips` varchar(10) NOT NULL DEFAULT '0' ;");
+                    break;
                     
                 default:
                     break;
@@ -1031,6 +1036,11 @@ public final class SQLDatabaseManager implements DatabaseManager {
             statement.close();
 
             statement = connection.prepareStatement("INSERT IGNORE INTO " + tablePrefix + "huds (user_id, mobhealthbar) VALUES (? ,'" + Config.getInstance().getMobHealthbarDefault().name() + "')");
+            statement.setInt(1, id);
+            statement.execute();
+            statement.close();
+
+            statement = connection.prepareStatement("INSERT IGNORE INTO " + tablePrefix + "huds (user_id, scoreboardtips) VALUES (? , 0)");
             statement.setInt(1, id);
             statement.execute();
             statement.close();
