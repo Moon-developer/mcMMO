@@ -164,7 +164,12 @@ public class TreasureConfig extends ConfigLoader {
                 material = Material.INK_SACK;
             }
             else {
-                material = Material.matchMaterial(treasureName);
+                if (config.contains(type + "." + treasureName + ".Material")) {
+                    material = Material.matchMaterial(config.getString(type + "." + treasureName + ".Material"));
+                } else{
+                    material = Material.matchMaterial(treasureName);
+                }
+
             }
 
             int amount = config.getInt(type + "." + treasureName + ".Amount");
