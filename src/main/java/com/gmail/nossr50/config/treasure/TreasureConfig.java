@@ -1,9 +1,8 @@
 package com.gmail.nossr50.config.treasure;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
+import com.gmail.nossr50.config.ConfigLoader;
+import com.gmail.nossr50.datatypes.treasure.*;
+import com.gmail.nossr50.util.EnchantmentUtils;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
@@ -15,14 +14,9 @@ import org.bukkit.material.Dye;
 import org.bukkit.potion.Potion;
 import org.bukkit.potion.PotionType;
 
-import com.gmail.nossr50.config.ConfigLoader;
-import com.gmail.nossr50.datatypes.treasure.EnchantmentTreasure;
-import com.gmail.nossr50.datatypes.treasure.ExcavationTreasure;
-import com.gmail.nossr50.datatypes.treasure.FishingTreasure;
-import com.gmail.nossr50.datatypes.treasure.HylianTreasure;
-import com.gmail.nossr50.datatypes.treasure.Rarity;
-import com.gmail.nossr50.datatypes.treasure.ShakeTreasure;
-import com.gmail.nossr50.util.EnchantmentUtils;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class TreasureConfig extends ConfigLoader {
     private static TreasureConfig instance;
@@ -254,13 +248,13 @@ public class TreasureConfig extends ConfigLoader {
 
                 if (config.contains(type + "." + treasureName + ".Custom_Name")) {
                     ItemMeta itemMeta = item.getItemMeta();
-                    itemMeta.setDisplayName(config.getString(type + "." + treasureName + "Custom_Name"));
+                    itemMeta.setDisplayName(config.getString(type + "." + treasureName + ".Custom_Name"));
                     item.setItemMeta(itemMeta);
                 }
 
                 if (config.contains(type + "." + treasureName + ".Lore")) {
                     ItemMeta itemMeta = item.getItemMeta();
-                    itemMeta.setLore(config.getStringList(type + "." + treasureName + "Custom_Name"));
+                    itemMeta.setLore(config.getStringList(type + "." + treasureName + ".Lore"));
                     item.setItemMeta(itemMeta);
                 }
             }

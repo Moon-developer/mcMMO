@@ -4,7 +4,7 @@
     <artifactId>mcMMO</artifactId>
     <version>1.4.08-SNAPSHOT</version>
     <name>mcMMO</name>
-    <url>https://github.com/mcMMO-Dev/mcMMO</url>
+    <url>https://github.com/ONWT/mcMMO</url>
     <issueManagement>
         <url>https://github.com/mcMMO-Dev/mcMMO/issues</url>
         <system>GitHub</system>
@@ -151,7 +151,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <ciManagement>
-        <system>Jenkins</system>
-        <url>http://ci.ecocitycraft.com/job/mcMMO</url>
+        <system>TeamCity</system>
+        <url>http://192.241.189.61:8111/</url>
     </ciManagement>
 </project>
