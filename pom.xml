@@ -137,21 +137,7 @@
             <version>0.0.5-SNAPSHOT</version>
         </dependency>
     </dependencies>
-    <distributionManagement>
-        <repository>
-            <id>md_5-releases</id>
-            <url>http://repo.md-5.net/content/repositories/releases/</url>
-        </repository>
-        <snapshotRepository>
-            <id>md_5-snapshots</id>
-            <url>http://repo.md-5.net/content/repositories/snapshots/</url>
-        </snapshotRepository>
-    </distributionManagement>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-    <ciManagement>
-        <system>TeamCity</system>
-        <url>http://192.241.189.61:8111/</url>
-    </ciManagement>
 </project>
