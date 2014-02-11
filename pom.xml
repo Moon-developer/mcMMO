@@ -140,4 +140,8 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+    <ciManagement>
+        <system>TeamCity</system>
+        <url>http://192.241.189.61:8111/project.html?projectId=MMMO</url>
+    </ciManagement>
 </project>
